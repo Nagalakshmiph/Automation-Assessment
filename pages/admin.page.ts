@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 
 interface UserData {
   employeeName: string;
@@ -37,6 +37,11 @@ export class AdminPage {
     await this.page.locator('input[class="oxd-input oxd-input--active"]').last().click()
     await this.page.locator('input[class="oxd-input oxd-input--active"]').last().fill(oldUsername)
     await this.page.locator('[type="submit"]').click()
+    await expect(this.page.getByText('User Management').first()).toBeVisible()
+    const Role = await this.page.locator('(//div[@class="oxd-table-cell oxd-padding-cell"])[3]').innerText()
+    expect(Role).toEqual('Admin')
+    const locator = this.page.locator('(//div[@class="oxd-table-cell oxd-padding-cell"])[5]');
+    await expect(locator).toHaveText('Enabled', { timeout: 20000 });
     await this.page.locator('[class="oxd-icon-button oxd-table-cell-action-space"]').last().click();
     await this.page.waitForTimeout(2000)
     await this.page.locator('(//input[@class="oxd-input oxd-input--active"])[2]').fill(newUsername);

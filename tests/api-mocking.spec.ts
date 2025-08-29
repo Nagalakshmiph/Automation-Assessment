@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/login.page';
 import { testData } from '../testdata/exampletestdata';
-
+import { DashboardPage } from '../pages/dashboard.page'
 test('Mock dashboard API response and assert status', async ({ page }) => {
   await page.route('**/dashboard/index', async (route) => {
     await route.fulfill({
@@ -12,6 +12,7 @@ test('Mock dashboard API response and assert status', async ({ page }) => {
   });
 
   const login = new LoginPage(page);
+  const dashboardPage = new DashboardPage(page);
   await login.goto();
 
   const [response] = await Promise.all([
@@ -21,5 +22,5 @@ test('Mock dashboard API response and assert status', async ({ page }) => {
 
   expect(response.status()).toBe(200);
 
-  await expect(page.locator("//h6[text()='Dashboard']")).toBeVisible();
+  await expect(dashboardPage.dashboardHeading).toBeVisible();
 });

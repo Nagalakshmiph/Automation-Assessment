@@ -4,7 +4,6 @@ import { AdminPage } from '../pages/admin.page';
 import { testData } from '../testdata/exampletestdata';
 let faker;
 test('Add, edit, and delete a user', async ({ page }) => {
-  test.setTimeout(2 * 60 * 1000);
   faker = (await import('@faker-js/faker')).faker; 
   const login = new LoginPage(page);
   const admin = new AdminPage(page);
